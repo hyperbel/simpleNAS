@@ -31,22 +31,17 @@ func index(c *gin.Context) {
 }
 
 func handleArgs(args []string) string {
-	
-	fmt.Println(args)
-	fmt.Println(len(args))
-	if args == nil {
-		home_dir, err := os.UserHomeDir()
+	config_file_location := ""
+	home_dir, err := os.UserHomeDir()
+
+	if len(args) == 1 {
 		if err != nil {
 			fmt.Println("user doesn't have home dir...")
 			os.Exit(1)
 		}
-		fmt.Println(home_dir)
-		//config_file_location := fmt.Sprintf("%d/.config/simplenas/config", home_dir)
-	}
-
-	if len(args) == 1 {
-		fmt.Println("please provide arguments. (e.g. help)")
-		os.Exit(1)
+		config_file_location = fmt.Sprintf("%s/.config/simplenas/config.json", home_dir)
+		fmt.Println(config_file_location)
+		return config_file_location
 	}
 
 	if args[1] == "help" {
@@ -54,9 +49,9 @@ func handleArgs(args []string) string {
 		fmt.Println("Usage: go run . <config>")
 		fmt.Println("the default config file is ~/.config/simplenas/config")
 		fmt.Println("If this config file is not there, you have to provide one")
+		os.Exit(0)
 	}
 	
-//	return config_file_location
-	return ""
+	config_file_location = fmt.Sprintf("%d/.config/simplenas/config.json", home_dir)
+	return config_file_location
 }
-
