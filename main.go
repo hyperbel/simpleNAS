@@ -9,15 +9,7 @@ import (
 )
 
 func main() {
-	args := os.Args
-	if args == nil {
-		log.Fatal("no args provided")
-	}
-	if len(args) == 1 {
-		fmt.Println("please provide arguments. (e.g. help)")
-		return
-	}
-	fmt.Println(args)
+	handleArgs(os.Args)
 
 	dir, err := os.UserHomeDir()
 	if err != nil {
@@ -37,3 +29,30 @@ func index(c *gin.Context) {
 		"message": "hello index",
 	})
 }
+
+func handleArgs(args []string) string {
+	
+	if args == nil {
+		home_dir, err := os.UserHomeDir()
+		if err != nil {
+			fmt.Println("user doesn't have home dir...")
+			os.Exit(1)
+		}
+		config_file_location := fmt.Sprintf("%d/.config/simplenas/config", home_dir)
+	}
+
+	if len(args) == 1 {
+		fmt.Println("please provide arguments. (e.g. help)")
+		os.Exit(1)
+	}
+	if args[1] == "help" {
+		fmt.Println("You can provide a config file, by passing it as an Argument.")
+		fmt.Println("Usage: go run . <config>")
+		fmt.Println("the default config file is ~/.config/simplenas/config")
+		fmt.Println("If this config file is not there, you have to provide one")
+	}
+		
+	
+	return config_file_location
+}
+
