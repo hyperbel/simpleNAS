@@ -13,6 +13,10 @@ func main() {
 	if args == nil {
 		log.Fatal("no args provided")
 	}
+	if len(args) == 1 {
+		fmt.Println("please provide arguments. (e.g. help)")
+		return
+	}
 	fmt.Println(args)
 
 	dir, err := os.UserHomeDir()
