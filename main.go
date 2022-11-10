@@ -67,6 +67,6 @@ func handleArgs(args []string) string {
 		os.Exit(0)
 	}
 	
-	config_file_location = fmt.Sprintf("%d/.config/simplenas/config.json", home_dir)
+	config_file_location = fmt.Sprintf("%s/.config/simplenas/config.json", home_dir)
 	return config_file_location
 }
