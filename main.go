@@ -16,8 +16,10 @@ type Config struct {
 func main() {
 	file_path := handleArgs(os.Args)
 	json_file, err := os.Open(file_path)
-
-
+	if err !=nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
 
 	dir, err := os.UserHomeDir()
 	if err != nil {
