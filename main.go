@@ -4,12 +4,20 @@ import (
 	"os"
 	"fmt"
 	"log"
+	"encoding/json"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )
 
+type Config struct {
+	Dir	string	`json:"dir"`
+}
+
 func main() {
-	handleArgs(os.Args)
+	file_path := handleArgs(os.Args)
+	json_file, err := os.Open(file_path)
+
+
 
 	dir, err := os.UserHomeDir()
 	if err != nil {
