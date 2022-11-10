@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +21,10 @@ func main() {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+	byte_value, _ := ioutil.ReadAll(json_file)
+	var conf Config
+	json.Unmarshal(byte_value, &conf)
+	fmt.Println(conf)
 
 	dir, err := os.UserHomeDir()
 	if err != nil {
