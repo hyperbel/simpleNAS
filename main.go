@@ -38,7 +38,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	var fs [100]FileInfo
+	var fs [100]FileInfo	//change 100 to amount of files
 	
 	for i, f := range files {
 		fs[i] = FileInfo{f.Name(), f.IsDir(), 0}
