@@ -38,7 +38,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	var fs []FileInfo
+	var fs [100]FileInfo
 	
 	for i, f := range files {
 		fs[i] = FileInfo{f.Name(), f.IsDir(), 0}
@@ -54,7 +54,7 @@ func main() {
 		r.LoadHTMLFiles("sites/html/dirtest.html")
 		c.HTML(http.StatusOK, "dirtest.html", gin.H{
 			"message": "directory test stuff",
-			"Items in dir": fs,
+			"files": fs,
 		})
 	})
 
