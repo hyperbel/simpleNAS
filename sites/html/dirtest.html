@@ -4,6 +4,10 @@
   <body>
     <div id="content">
       <h1>{{ .message }}</h1>
+      {{ range $file := .files }}
+      <h2>{{ .Name }}</h2>
+<!--      <h2>{{ .IsDir }}</h2> -->
+      {{ end }}
       <p>/dirtest endpoint</p>
     </div>
   </body>
