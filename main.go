@@ -26,24 +26,26 @@ func main() {
 	json.Unmarshal(byte_value, &conf)
 	fmt.Println(conf)
 
-	dir, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(dir)
-	
 	r := gin.Default()
+	
+	r.LoadHTMLGlob("sites/html/*.html")
 
 	r.GET("/", index)
+	r.GET("/dirtest", func(c *gin.Context) {
+		r.LoadHTMLFiles("sites/html/dirtest.html")
+		c.HTML(http.StatusOK, "dirtest.html", gin.H{
+			"message": "directory test stuff",
+		})
+	})
 
 	r.Run()
 }
-
 func index(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "hello index",
+		"message": "index called",
 	})
 }
+
 
 func handleArgs(args []string) string {
 	config_file_location := ""
