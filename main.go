@@ -65,8 +65,10 @@ func handleArgs(args []string) string {
 		fmt.Println("the default config file is ~/.config/simplenas/config")
 		fmt.Println("If this config file is not there, you have to provide one")
 		os.Exit(0)
+	} else {
+		config_file_location = args[1]
+		fmt.Println(args[1])
 	}
 	
-	config_file_location = fmt.Sprintf("%s/.config/simplenas/config.json", home_dir)
 	return config_file_location
 }
