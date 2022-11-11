@@ -14,17 +14,36 @@ type Config struct {
 	Dir	string	`json:"dir"`
 }
 
+type FileInfo struct {
+	Name string
+	IsDir bool
+	Size int
+}
+
 func main() {
 	file_path := handleArgs(os.Args)
 	json_file, err := os.Open(file_path)
+
 	if err !=nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+
 	byte_value, _ := ioutil.ReadAll(json_file)
 	var conf Config
 	json.Unmarshal(byte_value, &conf)
-	fmt.Println(conf)
+	files, err := ioutil.ReadDir(conf.Dir)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	var fs []FileInfo
+	
+	for i, f := range files {
+		fs[i] = FileInfo{f.Name(), f.IsDir(), 0}
+		fmt.Println(f.Name(), f.IsDir())
+	}
 
 	r := gin.Default()
 	
@@ -35,6 +54,7 @@ func main() {
 		r.LoadHTMLFiles("sites/html/dirtest.html")
 		c.HTML(http.StatusOK, "dirtest.html", gin.H{
 			"message": "directory test stuff",
+			"Items in dir": fs,
 		})
 	})
 
