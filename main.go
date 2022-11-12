@@ -10,16 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Config struct {
-	Dir	string	`json:"dir"`
-}
-
-type FileInfo struct {
-	Name string
-	IsDir bool
-	Size int
-}
-
 func main() {
 	file_path := handleArgs(os.Args)
 	json_file, err := os.Open(file_path)
