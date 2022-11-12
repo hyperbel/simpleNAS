@@ -5,8 +5,13 @@
     <div id="content">
       <h1>{{ .message }}</h1>
       {{ range $file := .files }}
-      <h2>{{ .Name }}</h2>
-<!--      <h2>{{ .IsDir }}</h2> -->
+        <span>{{ .Name }}</span>
+          {{ if .IsDir }}
+            <span>Directory</span>
+          {{ else }}
+            <span>File</span>
+          {{end}}
+        <br/>
       {{ end }}
       <p>/dirtest endpoint</p>
     </div>
