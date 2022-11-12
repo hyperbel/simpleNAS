@@ -3,7 +3,7 @@
   </head>
   <body>
     <div id="content">
-      <h1>{{ .message }}</h1>
+      <h1>{{ .dir }}</h1>
       {{ range $file := .files }}
           {{ if .IsDir }}
             <button>{{ .Name }}</button>
