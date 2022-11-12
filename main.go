@@ -29,8 +29,7 @@ func main() {
 	r.LoadHTMLGlob("sites/html/*.html")
 
 	r.GET("/", index)
-	r.GET("/dirtest", func(c *gin.Context) {
-	})
+	r.GET("/dirtest", dirtest)
 
 	r.Run()
 }
