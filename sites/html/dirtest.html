@@ -5,11 +5,10 @@
     <div id="content">
       <h1>{{ .message }}</h1>
       {{ range $file := .files }}
-        <span>{{ .Name }}</span>
           {{ if .IsDir }}
-            <span>Directory</span>
+            <button>{{ .Name }}</button>
           {{ else }}
-            <span>File</span>
+            <span>{{ .Name }}</span>
           {{end}}
         <br/>
       {{ end }}
