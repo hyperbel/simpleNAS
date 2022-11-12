@@ -23,7 +23,8 @@ func dirtest(c *gin.Context) {
 		os.Exit(1)
 	}
 
-	var fs [100]FileInfo	//change 100 to amount of files
+	 fs := make([]FileInfo, len(files))	//change 100 to amount of files
+
 	
 	for i, f := range files {
 		fs[i] = FileInfo{f.Name(), f.IsDir(), 0}
