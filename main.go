@@ -10,6 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var Conf Config
+
 func main() {
 	file_path := handleArgs(os.Args)
 	json_file, err := os.Open(file_path)
@@ -20,9 +22,29 @@ func main() {
 	}
 
 	byte_value, _ := ioutil.ReadAll(json_file)
-	var conf Config
-	json.Unmarshal(byte_value, &conf)
-	files, err := ioutil.ReadDir(conf.Dir)
+	json.Unmarshal(byte_value, &Conf)
+
+
+	r := gin.Default()
+	
+	r.LoadHTMLGlob("sites/html/*.html")
+
+	r.GET("/", index)
+	r.GET("/dirtest", func(c *gin.Context) {
+	})
+
+	r.Run()
+}
+
+func index(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "index called",
+	})
+}
+
+func dirtest(c *gin.Context) {
+	files, err := ioutil.ReadDir(Conf.Dir)
+	fmt.Println(Conf.Dir)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -32,30 +54,14 @@ func main() {
 	
 	for i, f := range files {
 		fs[i] = FileInfo{f.Name(), f.IsDir(), 0}
-		fmt.Println(f.Name(), f.IsDir())
+		fmt.Println(Conf.Dir, f.Name(), f.IsDir())
 	}
-
-	r := gin.Default()
-	
-	r.LoadHTMLGlob("sites/html/*.html")
-
-	r.GET("/", index)
-	r.GET("/dirtest", func(c *gin.Context) {
-		r.LoadHTMLFiles("sites/html/dirtest.html")
-		c.HTML(http.StatusOK, "dirtest.html", gin.H{
-			"message": "directory test stuff",
-			"files": fs,
-		})
+	c.HTML(http.StatusOK, "dirtest.html", gin.H{
+		"message": "directory test stuff",
+		"files": fs,
 	})
 
-	r.Run()
 }
-func index(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "index called",
-	})
-}
-
 
 func handleArgs(args []string) string {
 	config_file_location := ""
