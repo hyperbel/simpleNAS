@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-//	"fmt"
+	"fmt"
 	"log"
 	"net/http"
 	"github.com/gin-gonic/gin"
@@ -56,13 +56,8 @@ func path(c *gin.Context) {
 
 func dir(c *gin.Context) {
 	path := c.Query("path")
+	fmt.Println(path)
 
-	if path == "" {
-		c.HTML(404, "error.html", gin.H{
-			"message": "redirecting...",
-		})
-	}
-	
 	dir := Conf.Dir + path
 	files, err := os.ReadDir(dir)
 	

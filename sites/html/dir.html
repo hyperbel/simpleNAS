@@ -6,7 +6,7 @@
       <h1>{{ .dir }}</h1>
       {{ range $file := .files }}
           {{ if .IsDir }}
-            <button>{{ .Name }}</button>
+            <button onclick="window.location = window.location + '/{{ .Name }}'">{{ .Name }}</button>
           {{ else }}
             <span>{{ .Name }}</span>
           {{end}}

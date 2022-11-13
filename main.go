@@ -30,7 +30,7 @@ func main() {
 
 	r.GET("/", index)
 //	r.GET("/:path", path)
-	r.POST("/dir", dir)
+	r.GET("/dir", dir)
 
 	r.Run()
 }
