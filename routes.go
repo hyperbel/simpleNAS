@@ -2,15 +2,14 @@ package main
 
 import (
 	"os"
-	"fmt"
+//	"fmt"
 	"log"
-	"io/ioutil"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )
 
 func index(c *gin.Context) {
-	files, err := ioutil.ReadDir(Conf.Dir)
+	files, err := os.ReadDir(Conf.Dir)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -29,11 +28,12 @@ func index(c *gin.Context) {
 
 }
 
+/*
 func path(c *gin.Context) {
 	fmt.Println(Conf.Dir)
 	fmt.Println(c.Param("path"))
 	dir := Conf.Dir + c.Param("path")
-	files, err := ioutil.ReadDir(dir)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		log.Fatal(err)
 		c.HTML(500, "error.html", gin.H{
@@ -45,6 +45,38 @@ func path(c *gin.Context) {
 	
 	for index, file := range files {
 		fs[index] = FileInfo{file.Name(), file.IsDir(), 0}
+	}
+	
+	c.HTML(http.StatusOK, "dir.html", gin.H{
+		"dir": dir,
+		"files": fs,
+	})
+}
+*/
+
+func dir(c *gin.Context) {
+	path := c.Query("path")
+
+	if path == "" {
+		c.HTML(404, "error.html", gin.H{
+			"message": "redirecting...",
+		})
+	}
+	
+	dir := Conf.Dir + path
+	files, err := os.ReadDir(dir)
+	
+	if err != nil {
+		log.Fatal(err)
+		c.HTML(500, "error.html", gin.H{
+			"message": "an error occured, please check logs",
+		})
+	}
+	
+	fs := make([]FileInfo, len(files))
+	
+	for i, file := range files {
+		fs[i] = FileInfo{file.Name(), file.IsDir(), 0}
 	}
 	
 	c.HTML(http.StatusOK, "dir.html", gin.H{

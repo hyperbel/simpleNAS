@@ -29,7 +29,8 @@ func main() {
 	r.LoadHTMLGlob("sites/html/*.html")
 
 	r.GET("/", index)
-	r.GET("/:path", path)
+//	r.GET("/:path", path)
+	r.POST("/dir", dir)
 
 	r.Run()
 }
