@@ -21,7 +21,7 @@ func index(c *gin.Context) {
 	for i, f := range files {
 		fs[i] = FileInfo{f.Name(), f.IsDir(), 0}
 	}
-	c.HTML(http.StatusOK, "dir.html", gin.H{
+	c.HTML(http.StatusOK, "index.html", gin.H{
 		"dir": Conf.Dir,
 		"files": fs,
 	})
