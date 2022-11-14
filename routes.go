@@ -61,6 +61,12 @@ func login(c *gin.Context) {
 		os.Exit(1)
 	}
 
+	res, err := db.Query("select name from Users where name = 'admin' and password = 0x1")
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+	fmt.Println(res)
 	c.JSON(http.StatusOK, gin.H{
 		"lastDir": ,
 	})
