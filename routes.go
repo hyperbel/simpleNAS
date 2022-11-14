@@ -57,35 +57,30 @@ func dir(c *gin.Context) {
 }
 
 func login(c *gin.Context) {
-	fmt.Println("login called")
 	db, err := sql.Open("sqlite3", "./database.db")
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	fmt.Println("opening db successfull")
+	username := c.PostForm("uname")
+	password := c.PostForm("passwd")
+//	user := User{0,username, password}
+	fmt.Println(username, password)
 
 	rows, err := db.Query("select name from Users where id=1;")
-	fmt.Println("got rows and err")
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("gettings rows successful")
 	match := false
-	fmt.Println("match set to false")
 	
 	for rows.Next() {
-		fmt.Println("looping through rows n")
 		var p []byte
 		err = rows.Scan(&p)
-		fmt.Println("scanned row")
 
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("scanning rows success")
-		fmt.Println(p)
 		/*
 		var user User
 		err := json.Unmarshal(p, &user)
@@ -94,7 +89,6 @@ func login(c *gin.Context) {
 		}
 		fmt.Println(user)
 		*/
-		fmt.Println(string(p[:]))
 	}
 
 	if match {

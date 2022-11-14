@@ -11,7 +11,7 @@ type FileInfo struct {
 }
 
 type User struct {
-	Name string
 	Id int
-	PasswordHash byte
+	Name string `form:"uname" binding:"required"`
+	PasswordHash byte `form:"passwd" binding:"required"`
 }
