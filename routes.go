@@ -5,6 +5,7 @@ import (
 	"os"
 	"log"
 	"net/http"
+//	"encoding/json"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/gin-gonic/gin"
@@ -56,24 +57,53 @@ func dir(c *gin.Context) {
 }
 
 func login(c *gin.Context) {
-	db, err := sql.Open("sqlite3", "./database.sql")
+	fmt.Println("login called")
+	db, err := sql.Open("sqlite3", "./database.db")
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+	fmt.Println("opening db successfull")
 
-	res, err := db.Query("select name from Users where name = 'admin' and password = 0x1")
+	rows, err := db.Query("select name from Users where id=1;")
+	fmt.Println("got rows and err")
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println(res)
-	c.JSON(http.StatusOK, gin.H{
-		"lastDir": "",
-	})
+	fmt.Println("gettings rows successful")
+	match := false
+	fmt.Println("match set to false")
+	
+	for rows.Next() {
+		fmt.Println("looping through rows n")
+		var p []byte
+		err = rows.Scan(&p)
+		fmt.Println("scanned row")
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("scanning rows success")
+		fmt.Println(p)
+		/*
+		var user User
+		err := json.Unmarshal(p, &user)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(user)
+		*/
+		fmt.Println(string(p[:]))
+	}
+
+	if match {
+		c.Redirect(http.StatusMovedPermanently, "/dir?path=/")
+	} else {
+		c.Redirect(http.StatusMovedPermanently, "/")
+	}
 }
 
 func signin(c *gin.Context) {
-
 	
 }
