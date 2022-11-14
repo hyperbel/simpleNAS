@@ -2,6 +2,7 @@
 simple NAS 
 
 ## instructions
+* you need postgres
 * you need to create a file named `~/.config/simplenas/config`
 ###
 * you can also do `go run . <config.json>`

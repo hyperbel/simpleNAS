@@ -29,12 +29,11 @@ func main() {
 	r.LoadHTMLGlob("sites/html/*.html")
 
 	r.GET("/", index)
-//	r.GET("/:path", path)
 	r.GET("/dir", dir)
+	r.POST("/login", login)
 
 	r.Run()
 }
-
 
 func handleArgs(args []string) string {
 	config_file_location := ""

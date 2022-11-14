@@ -2,9 +2,9 @@ package main
 
 import (
 	"os"
-	"fmt"
 	"log"
 	"net/http"
+	"database/sql"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,35 +28,8 @@ func index(c *gin.Context) {
 
 }
 
-/*
-func path(c *gin.Context) {
-	fmt.Println(Conf.Dir)
-	fmt.Println(c.Param("path"))
-	dir := Conf.Dir + c.Param("path")
-	files, err := os.ReadDir(dir)
-	if err != nil {
-		log.Fatal(err)
-		c.HTML(500, "error.html", gin.H{
-			"message": "An error occurred, please check logs",
-		})
-	}
-	
-	fs := make([]FileInfo, len(files))
-	
-	for index, file := range files {
-		fs[index] = FileInfo{file.Name(), file.IsDir(), 0}
-	}
-	
-	c.HTML(http.StatusOK, "dir.html", gin.H{
-		"dir": dir,
-		"files": fs,
-	})
-}
-*/
-
 func dir(c *gin.Context) {
 	path := c.Query("path")
-	fmt.Println(path)
 
 	dir := Conf.Dir + path
 	files, err := os.ReadDir(dir)
@@ -77,5 +50,12 @@ func dir(c *gin.Context) {
 	c.HTML(http.StatusOK, "dir.html", gin.H{
 		"dir": dir,
 		"files": fs,
+	})
+}
+
+func login(c *gin.Context) {
+	
+	c.JSON(http.StatusOK, gin.H{
+		"lastDir": ,
 	})
 }
