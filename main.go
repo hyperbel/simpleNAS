@@ -31,7 +31,7 @@ func main() {
 	r.GET("/", index)
 	r.GET("/dir", dir)
 	r.POST("/login", login)
-	r.POST("/signin", signin)
+	r.POST("/createaccount", createaccount)
 
 	r.Run()
 }

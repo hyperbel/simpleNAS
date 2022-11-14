@@ -5,6 +5,7 @@ import (
 	"os"
 	"log"
 	"net/http"
+	"crypto/sha256"
 //	"encoding/json"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
@@ -64,10 +65,12 @@ func login(c *gin.Context) {
 	}
 	username := c.PostForm("uname")
 	password := c.PostForm("passwd")
-//	user := User{0,username, password}
 	fmt.Println(username, password)
 
-	rows, err := db.Query("select name from Users where id=1;")
+	hash := sha256.New()
+	q := fmt.Sprintf("select id from Users where name=\"%s\" and password=\"%s\";", username, hash.Sum([]byte(password)))
+	fmt.Println(q)
+	rows, err := db.Query(q)
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
@@ -81,15 +84,8 @@ func login(c *gin.Context) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		/*
-		var user User
-		err := json.Unmarshal(p, &user)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(user)
-		*/
 	}
+	defer db.Close()
 
 	if match {
 		c.Redirect(http.StatusMovedPermanently, "/dir?path=/")
@@ -98,6 +94,44 @@ func login(c *gin.Context) {
 	}
 }
 
-func signin(c *gin.Context) {
+func createaccount(c *gin.Context) {
 	
+	name := c.PostForm("name")
+	pass := c.PostForm("password")
+	conf := c.PostForm("confirm")
+
+	if conf != pass {
+		c.Redirect(http.StatusMovedPermanently, "/")
+	}
+	
+	db, err := sql.Open("sqlite3", "./database.db")
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	
+	hash := sha256.New()
+
+	tx, err := db.Begin()
+
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+
+	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users(name, password) values (\"%s\", \"%s\")", name, hash.Sum([]byte(pass))))
+
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+
+	defer stmt.Close()
+	err = tx.Commit()
+	if err != nil {
+		log.Fatal(err)
+		c.Redirect(http.StatusMovedPermanently, "/")
+	}
+
+	c.Redirect(http.StatusMovedPermanently, "/")
 }

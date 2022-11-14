@@ -4,13 +4,25 @@
   <body>
     <div id="wrapper">
       <center>
-        <h2>Log in</h2>
-        <h3>to see stored files</h3>
-        <form action="/login" method="post">
-          <input type="text"     id="uname" name="uname" placeholder="Username..."><br/>
-          <input type="password" id="passwd" name="passwd" placeholder="Password..."><br/>
-          <input type="submit" value="Log in">
-        </form>
+        <div id="loginForm">
+          <h2>Log in</h2>
+          <h3>to see stored files</h3>
+          <form action="/login" method="post">
+            <input type="text"     id="uname" name="uname" placeholder="Username..."><br/>
+            <input type="password" id="passwd" name="passwd" placeholder="Password..."><br/>
+            <input type="submit" value="Log in">
+          </form>
+        </div>
+        <hr/>
+        <div id="signinForm">
+          <h2>Create Account</h2>
+          <form action="/createaccount" method="post">
+            <input type="text"  id="name" name="name" placeholder="Username..."><br/>
+            <input type="password" id="password" name="password" placeholder="Password..."><br/>
+            <input type="password" id="confirm" name="confirm" placeholder="Confirm Password..."><br/>
+            <input type="submit" value="Create Account">
+          </form>
+        </div>
       </center>
     </div>
   </body>

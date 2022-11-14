@@ -9,9 +9,3 @@ type FileInfo struct {
 	IsDir bool
 	Size int
 }
-
-type User struct {
-	Id int
-	Name string `form:"uname" binding:"required"`
-	PasswordHash byte `form:"passwd" binding:"required"`
-}
