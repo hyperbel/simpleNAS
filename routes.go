@@ -59,3 +59,7 @@ func login(c *gin.Context) {
 		"lastDir": ,
 	})
 }
+
+func signin(c *gin.Context) {
+	
+}
