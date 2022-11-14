@@ -68,7 +68,7 @@ func login(c *gin.Context) {
 	}
 	fmt.Println(res)
 	c.JSON(http.StatusOK, gin.H{
-		"lastDir": ,
+		"lastDir": ,""
 	})
 }
 
