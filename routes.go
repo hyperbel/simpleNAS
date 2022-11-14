@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/gin-gonic/gin"
 )
 
@@ -54,12 +55,18 @@ func dir(c *gin.Context) {
 }
 
 func login(c *gin.Context) {
-	
+	db, err := sql.Open("sqlite3", "./database.sql")
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"lastDir": ,
 	})
 }
 
 func signin(c *gin.Context) {
+
 	
 }
