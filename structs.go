@@ -10,3 +10,9 @@ type FileInfo struct {
 	IsDir bool
 	Size int
 }
+
+type User struct {
+	id int 
+	name string
+	passwd []byte
+}

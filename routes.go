@@ -69,23 +69,34 @@ func login(c *gin.Context) {
 
 	hash := sha256.New()
 	pwh := hash.Sum([]byte(password))[:]
-	q := fmt.Sprintf("select id from Users where name=\"%s\" and password=\"%s\";", username, pwh)
+	fmt.Println(string(pwh[:]))
+
+	q := fmt.Sprintf("select * from Users where name=\"%s\" and password=0;", username)//, pwh)
 	fmt.Println(q)
-	rows, err := db.Query(q)
+	var u User
+	err = db.QueryRow(q, username, pwh).Scan(&u.id, &u.name, &u.passwd)
+	match := false
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
+	} else {
+
+		match = true
 	}
-	match := false
 	
+	/*
 	for rows.Next() {
 		var p []byte
 		err = rows.Scan(&p)
 
 		if err != nil {
 			log.Fatal(err)
+		} else {
+			match = true
+			break
 		}
 	}
+*/
 	defer db.Close()
 
 	if match {
@@ -119,7 +130,8 @@ func createaccount(c *gin.Context) {
 		os.Exit(1)
 	}
 
-	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users values (null, \"%s\", \"%s\")", name, hash.Sum([]byte(pass))[:]))
+	pwh := hash.Sum([]byte(pass))[:]
+	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users values (null, \"%s\", \"%s\")", name, pwh))
 
 	if err != nil {
 		log.Println(err)
