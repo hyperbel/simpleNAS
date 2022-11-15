@@ -68,7 +68,8 @@ func login(c *gin.Context) {
 	fmt.Println(username, password)
 
 	hash := sha256.New()
-	q := fmt.Sprintf("select id from Users where name=\"%s\" and password=\"%s\";", username, hash.Sum([]byte(password)))
+	pwh := hash.Sum([]byte(password))[:]
+	q := fmt.Sprintf("select id from Users where name=\"%s\" and password=\"%s\";", username, pwh)
 	fmt.Println(q)
 	rows, err := db.Query(q)
 	if err != nil {
@@ -95,7 +96,6 @@ func login(c *gin.Context) {
 }
 
 func createaccount(c *gin.Context) {
-	
 	name := c.PostForm("name")
 	pass := c.PostForm("password")
 	conf := c.PostForm("confirm")
@@ -119,12 +119,13 @@ func createaccount(c *gin.Context) {
 		os.Exit(1)
 	}
 
-	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users(name, password) values (\"%s\", \"%s\")", name, hash.Sum([]byte(pass))))
+	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users values (null, \"%s\", \"%s\")", name, hash.Sum([]byte(pass))[:]))
 
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
+	fmt.Println(stmt)
 
 	defer stmt.Close()
 	err = tx.Commit()
