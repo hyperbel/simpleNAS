@@ -1,5 +1,6 @@
+-- DROP TABLE Users;
 CREATE TABLE Users (
-    id int not null primary key autoincrement,
-    name string not null,
-    password blob not null
+    uid INTEGER PRIMARY KEY AUTOINCREMENT,
+    name STRING NOT NULL,
+    password BLOB NOT NULL
 )

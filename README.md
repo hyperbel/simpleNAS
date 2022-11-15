@@ -2,6 +2,8 @@
 simple NAS 
 
 ## instructions
+* before running, do `go get -u`
+* and `cat database.sql | sqlite3 database.db`
 * you need postgres
 * you need to create a file named `~/.config/simplenas/config`
 ###
