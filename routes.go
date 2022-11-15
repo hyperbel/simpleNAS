@@ -58,7 +58,7 @@ func dir(c *gin.Context) {
 }
 
 func login(c *gin.Context) {
-	db, err := sql.Open("sqlite3", "./database.db")
+	db, err := sql.Open("sqlite3", Conf.DB)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -104,7 +104,7 @@ func createaccount(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/")
 	}
 	
-	db, err := sql.Open("sqlite3", "./database.db")
+	db, err := sql.Open("sqlite3", Conf.DB)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

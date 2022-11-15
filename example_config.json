@@ -1,4 +1,4 @@
 {
   "dir": "./",
-  "db": "./database.sqlite"
+  "db": "./database.db"
 }

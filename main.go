@@ -22,6 +22,7 @@ func main() {
 
 	byte_value, _ := ioutil.ReadAll(json_file)
 	json.Unmarshal(byte_value, &Conf)
+	fmt.Println(Conf.Dir, Conf.DB)
 
 
 	r := gin.Default()
