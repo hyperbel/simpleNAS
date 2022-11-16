@@ -1,13 +1,12 @@
 var enc = new TextEncoder();
 
 function CreateAccountChanges() {
-  var password = document.createaccountform._password.value;
-  var pw_confirm = document.createaccountform.confirm.value;
-  var res_pw = enc.encode(password)
-  var res_conf = enc.encode(pw_confirm)
-  if (res_pw == res_conf) crypto.subtle.digest('SHA-256', res_pw).then((pass_hash) => {
-    console.log(res_pw)
-    console.log(pass_hash)
+  var pass = enc.encode(document.createaccountform._password.value);
+  var conf = enc.encode(document.createaccountform.confirm.value);
+  if (pass == conf) crypto.subtle.digest('SHA-256', pass).then((pass_hash) => {
+    console.log(pass);
+    console.log(pass_hash);
+    document.getElementById("password").value = pass_hash;
   })
 }
 

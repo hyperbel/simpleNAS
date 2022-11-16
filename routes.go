@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"crypto/sha256"
-//	"encoding/json"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/gin-gonic/gin"
@@ -109,10 +108,10 @@ func login(c *gin.Context) {
 func createaccount(c *gin.Context) {
 	name := c.PostForm("name")
 	pass := c.PostForm("password")
-	conf := c.PostForm("confirm")
-
-	if conf != pass {
-		c.Redirect(http.StatusMovedPermanently, "/")
+	fmt.Println(name, pass)
+	if pass == "ERRORSTATE" {
+		log.Fatal(pass)
+		os.Exit(1)
 	}
 	
 	db, err := sql.Open("sqlite3", Conf.DB)
