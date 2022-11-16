@@ -59,30 +59,40 @@ func dir(c *gin.Context) {
 
 func login(c *gin.Context) {
 	db, err := sql.Open("sqlite3", Conf.DB)
+
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+
 	username := c.PostForm("uname")
 	password := c.PostForm("passwd")
 	fmt.Println(username, password)
 
-	hash := sha256.New()
-	pwh := hash.Sum([]byte(password))[:]
-	fmt.Println(string(pwh[:]))
+	
+	hasher := sha256.New()
+	hasher.Write([]byte(password))
+	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+		
 
-	q := fmt.Sprintf("select * from Users where name=\"%s\" and password=0;", username)//, pwh)
+	q, err := db.Prepare("SELECT * FROM Users WHERE name=? and password=?")
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println(q)
-	var u User
-	err = db.QueryRow(q, username, pwh).Scan(&u.id, &u.name, &u.passwd)
+
 	match := false
+
+	var u User
+
+	err = q.QueryRow(username, sha).Scan(&u.id, &u.name, &u.passwd)
+
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
-	} else {
-
-		match = true
-	}
+	} 	
+	
+	fmt.Println(u.id, u.name, u.passwd)
 	
 	/*
 	for rows.Next() {
@@ -124,11 +134,9 @@ func createaccount(c *gin.Context) {
 	hasher := sha256.New()
 	hasher.Write([]byte(pass))
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
-	fmt.Println(sha)
 
 	
-	ret, err := db.Exec("insert into Users values (null, ?, ?);", name, sha)
-	fmt.Println(ret)
+	_, err = db.Exec("insert into Users values (null, ?, ?);", name, sha)
 	
 	if err != nil {
 		log.Println(err)
