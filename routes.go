@@ -59,6 +59,9 @@ func dir(c *gin.Context) {
 
 func login(c *gin.Context) {
 	db, err := sql.Open("sqlite3", Conf.DB)
+	hasher := sha256.New()
+	var match bool 
+	var u User
 
 	if err != nil {
 		log.Fatal(err)
@@ -70,7 +73,6 @@ func login(c *gin.Context) {
 	fmt.Println(c.Request.PostForm)
 	fmt.Println(username, password)
 
-	hasher := sha256.New()
 	hasher.Write([]byte(password))
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 		
@@ -80,32 +82,14 @@ func login(c *gin.Context) {
 	}
 	fmt.Println(q)
 
-	match := false
-
-	var u User
-
 	err = q.QueryRow(username, sha).Scan(&u.id, &u.name, &u.passwd)
 
 	if err != nil {
-		log.Println(err)
-		os.Exit(1)
+	match = false		
+	log.Println(err)
 	} 	
+	match = true
 	
-	fmt.Println(u.id, u.name, u.passwd)
-	
-	/*
-	for rows.Next() {
-		var p []byte
-		err = rows.Scan(&p)
-
-		if err != nil {
-			log.Fatal(err)
-		} else {
-			match = true
-			break
-		}
-	}
-*/
 	defer db.Close()
 
 	if match {
