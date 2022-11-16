@@ -67,14 +67,13 @@ func login(c *gin.Context) {
 
 	username := c.PostForm("uname")
 	password := c.PostForm("passwd")
+	fmt.Println(c.Request.PostForm)
 	fmt.Println(username, password)
 
-	
 	hasher := sha256.New()
 	hasher.Write([]byte(password))
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 		
-
 	q, err := db.Prepare("SELECT * FROM Users WHERE name=? and password=?")
 	if err != nil {
 		log.Fatal(err)
