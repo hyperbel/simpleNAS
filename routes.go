@@ -121,8 +121,6 @@ func createaccount(c *gin.Context) {
 		os.Exit(1)
 	}
 	
-	hash := sha256.New()
-
 	tx, err := db.Begin()
 
 	if err != nil {
@@ -130,8 +128,7 @@ func createaccount(c *gin.Context) {
 		os.Exit(1)
 	}
 
-	pwh := hash.Sum([]byte(pass))[:]
-	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users values (null, \"%s\", \"%s\")", name, pwh))
+	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users values (null, \"%s\", \"%s\")", name, pass))
 
 	if err != nil {
 		log.Println(err)

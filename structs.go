@@ -14,5 +14,5 @@ type FileInfo struct {
 type User struct {
 	id int 
 	name string
-	passwd []byte
+	passwd string
 }

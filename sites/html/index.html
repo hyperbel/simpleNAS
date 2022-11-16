@@ -1,25 +1,32 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <script src="/assets/index.js"></script>
   </head>
   <body>
     <div id="wrapper">
       <center>
+        <div id="message_header" hidden>
+          <h1>Password and confirmation don't match</h1>
+        </div>
         <div id="loginForm">
           <h2>Log in</h2>
           <h3>to see stored files</h3>
-          <form action="/login" method="post">
+          <form name="loginform" action="/login" method="post" onsubmit="LogInChanges()">
             <input type="text"     id="uname" name="uname" placeholder="Username..."><br/>
-            <input type="password" id="passwd" name="passwd" placeholder="Password..."><br/>
+            <input type="password" id="_passwd" name="_passwd" placeholder="Password..."><br/>
+            <input type="password" id="passwd" name="passwd" hidden>
             <input type="submit" value="Log in">
           </form>
         </div>
         <hr/>
         <div id="signinForm">
           <h2>Create Account</h2>
-          <form action="/createaccount" method="post">
+          <form name="createaccountform" action="/createaccount" method="post" onsubmit="CreateAccountChanges()">
             <input type="text"  id="name" name="name" placeholder="Username..."><br/>
-            <input type="password" id="password" name="password" placeholder="Password..."><br/>
+            <input type="password" id="_password" name="_password" placeholder="Password..."><br/>
             <input type="password" id="confirm" name="confirm" placeholder="Confirm Password..."><br/>
+            <input type="password" id="password" name="password" hidden>
             <input type="submit" value="Create Account">
           </form>
         </div>
