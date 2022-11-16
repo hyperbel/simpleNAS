@@ -108,11 +108,6 @@ func login(c *gin.Context) {
 func createaccount(c *gin.Context) {
 	name := c.PostForm("name")
 	pass := c.PostForm("password")
-	fmt.Println(name, pass)
-	if pass == "ERRORSTATE" {
-		log.Fatal(pass)
-		os.Exit(1)
-	}
 	
 	db, err := sql.Open("sqlite3", Conf.DB)
 	if err != nil {
@@ -120,26 +115,17 @@ func createaccount(c *gin.Context) {
 		os.Exit(1)
 	}
 	
-	tx, err := db.Begin()
-
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
 
-	stmt,err := tx.Prepare(fmt.Sprintf("insert into Users values (null, \"%s\", \"%s\")", name, pass))
-
+	ret, err := db.Exec("insert into Users values (null, ?, ?);", name, pass)
+	fmt.Println(ret)
+	
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
-	}
-	fmt.Println(stmt)
-
-	defer stmt.Close()
-	err = tx.Commit()
-	if err != nil {
-		log.Fatal(err)
-		c.Redirect(http.StatusMovedPermanently, "/")
 	}
 
 	c.Redirect(http.StatusMovedPermanently, "/")

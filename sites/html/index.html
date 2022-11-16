@@ -3,13 +3,10 @@
   <body>
     <div id="wrapper">
       <center>
-        <div id="message_header" hidden>
-          <h1>Password and confirmation don't match</h1>
-        </div>
         <div id="loginForm">
           <h2>Log in</h2>
           <h3>to see stored files</h3>
-          <form name="loginform" action="/login" method="post" onsubmit="LogInChanges()">
+          <form name="loginform" action="/login" method="post">
             <input type="text"     id="uname" name="uname" placeholder="Username..."><br/>
             <input type="password" id="_passwd" name="_passwd" placeholder="Password..."><br/>
             <input type="password" id="passwd" name="passwd" hidden>
@@ -19,16 +16,14 @@
         <hr/>
         <div id="signinForm">
           <h2>Create Account</h2>
-          <form name="createaccountform" action="/createaccount" method="post" onsubmit="CreateAccountChanges()">
+          <form name="createaccountform" action="/createaccount" method="post">
             <input type="text"  id="name" name="name" placeholder="Username..."><br/>
-            <input type="password" id="_password" name="_password" placeholder="Password..."><br/>
+            <input type="password" id="password" name="password" placeholder="Password..."><br/>
             <input type="password" id="confirm" name="confirm" placeholder="Confirm Password..."><br/>
-            <input type="text" id="password" name="password" value="ERRORSTATE"><br/>
             <input type="submit" value="Create Account">
           </form>
         </div>
       </center>
     </div>
-    <script src="/assets/index.js"></script>
   </body>
 </html>
