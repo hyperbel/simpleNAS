@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"crypto/sha256"
+	"encoding/base64"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/gin-gonic/gin"
@@ -120,7 +121,13 @@ func createaccount(c *gin.Context) {
 		os.Exit(1)
 	}
 
-	ret, err := db.Exec("insert into Users values (null, ?, ?);", name, pass)
+	hasher := sha256.New()
+	hasher.Write([]byte(pass))
+	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+	fmt.Println(sha)
+
+	
+	ret, err := db.Exec("insert into Users values (null, ?, ?);", name, sha)
 	fmt.Println(ret)
 	
 	if err != nil {
