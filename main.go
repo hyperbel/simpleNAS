@@ -34,6 +34,7 @@ func main() {
 	r.GET("/dir", dir)
 	r.POST("/login", login)
 	r.POST("/createaccount", createaccount)
+	r.POST("/back", back)
 
 	r.Run()
 }
