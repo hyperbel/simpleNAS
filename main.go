@@ -28,7 +28,7 @@ func main() {
 	r := gin.Default()
 	
 	r.LoadHTMLGlob("sites/html/*.html")
-	//r.Static("/assets", "./sites/assets")
+	r.Static("/assets", "./sites/assets")
 
 	r.GET("/", index)
 	r.GET("/dir", dir)

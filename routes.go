@@ -128,3 +128,7 @@ func createaccount(c *gin.Context) {
 
 	c.Redirect(http.StatusMovedPermanently, "/")
 }
+
+func back(c *gin.Context) {
+	fmt.Println("back called")
+}
