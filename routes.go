@@ -40,6 +40,7 @@ func dir(c *gin.Context) {
 	session := sessions.Default(c)
 
 	uid := session.Get("userid")
+	fmt.Println(uid)
 
 	dir := Conf.Dir + path
 	files, err := os.ReadDir(dir)
@@ -56,15 +57,15 @@ func dir(c *gin.Context) {
 	for i, file := range files {
 		fs[i] = FileInfo{file.Name(), file.IsDir(), 0}
 	}
-	
-	if session.Get("history") != "" {
-		str, ok := session.Get("history").(string)
-		if ok {
-			session.Set("history", ","+string(session.Get("history"))+dir)
-		}
+	hist := session.Get("history")
+	if hist == "" {
+		session.Set("history", dir+",")
+		fmt.Println(session.Get("history"))
 	} else {
-		session.Set("history", dir)
+		session.Set("history", fmt.Sprintf("%v,%v", hist, dir))
+		fmt.Println(session.Get("history"))
 	}
+	session.Save()
 
 	c.HTML(http.StatusOK, "dir.html", gin.H{
 		"dir": dir,
@@ -87,8 +88,6 @@ func login(c *gin.Context) {
 
 	username := c.PostForm("uname")
 	password := c.PostForm("passwd")
-	fmt.Println(c.Request.PostForm)
-	fmt.Println(username, password)
 
 	hasher.Write([]byte(password))
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
@@ -97,7 +96,6 @@ func login(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(q)
 
 	err = q.QueryRow(username, sha).Scan(&u.id, &u.name, &u.passwd)
 
@@ -150,10 +148,8 @@ func createaccount(c *gin.Context) {
 }
 
 func back(c *gin.Context) {
-	fmt.Println("back called")
 	b_body, _ := io.ReadAll(c.Request.Body)
 	body := string(b_body)
-	fmt.Println(body)
 
 	c.JSON(http.StatusOK, gin.H{
 		"url": body,
