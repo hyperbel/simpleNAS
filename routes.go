@@ -11,6 +11,7 @@ import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/sessions"
 )
 
 func index(c *gin.Context) {
@@ -38,7 +39,7 @@ func dir(c *gin.Context) {
 	//db, err := sql.Open("sqlite3", Conf.DB)
 	session := sessions.Default(c)
 
-	uid := sessions.Get("userid")
+	uid := session.Get("userid")
 
 	dir := Conf.Dir + path
 	files, err := os.ReadDir(dir)
@@ -57,7 +58,10 @@ func dir(c *gin.Context) {
 	}
 	
 	if session.Get("history") != "" {
-		session.Set("history", ","+session.Get("history")+dir)
+		str, ok := session.Get("history").(string)
+		if ok {
+			session.Set("history", ","+string(session.Get("history"))+dir)
+		}
 	} else {
 		session.Set("history", dir)
 	}
@@ -65,12 +69,13 @@ func dir(c *gin.Context) {
 	c.HTML(http.StatusOK, "dir.html", gin.H{
 		"dir": dir,
 		"files": fs,
+		"userid": uid,
 	})
 }
 
 func login(c *gin.Context) {
 	db, err := sql.Open("sqlite3", Conf.DB)
-	session := session.Default(c)
+	session := sessions.Default(c)
 	hasher := sha256.New()
 	var match bool 
 	var u User
