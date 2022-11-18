@@ -1,7 +1,11 @@
 function back() {
-  fetch("/back", data={
-    method: 'POST'
+  console.log(window.location.href)
+  fetch("/back", { 
+    method: 'POST', 
+    body: window.location.href,
   }).then((res) => res.json())
-  .then((data) => console.log(data))
-  window.location.href = 
+  .then((data) => {
+    console.log(data)
+    window.location.href = data["url"]
+  })
 }

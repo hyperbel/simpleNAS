@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"log"
+	"io"
 	"net/http"
 	"crypto/sha256"
 	"encoding/base64"
@@ -131,4 +132,17 @@ func createaccount(c *gin.Context) {
 
 func back(c *gin.Context) {
 	fmt.Println("back called")
+	var backInfo BackInfo
+	body, _ := io.ReadAll(c.Request.Body)
+	fmt.Println(string(body))
+
+	if err := c.BindJSON(&backInfo); err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	fmt.Println(backInfo)
+
+	c.JSON(http.StatusOK, gin.H{
+		"url": "http://localhost:8080/dir?path=/",
+	})
 }
