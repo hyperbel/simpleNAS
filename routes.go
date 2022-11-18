@@ -35,6 +35,10 @@ func index(c *gin.Context) {
 
 func dir(c *gin.Context) {
 	path := c.Query("path")
+	//db, err := sql.Open("sqlite3", Conf.DB)
+	session := sessions.Default(c)
+
+	uid := sessions.Get("userid")
 
 	dir := Conf.Dir + path
 	files, err := os.ReadDir(dir)
@@ -52,6 +56,12 @@ func dir(c *gin.Context) {
 		fs[i] = FileInfo{file.Name(), file.IsDir(), 0}
 	}
 	
+	if session.Get("history") != "" {
+		session.Set("history", ","+session.Get("history")+dir)
+	} else {
+		session.Set("history", dir)
+	}
+
 	c.HTML(http.StatusOK, "dir.html", gin.H{
 		"dir": dir,
 		"files": fs,
@@ -60,6 +70,7 @@ func dir(c *gin.Context) {
 
 func login(c *gin.Context) {
 	db, err := sql.Open("sqlite3", Conf.DB)
+	session := session.Default(c)
 	hasher := sha256.New()
 	var match bool 
 	var u User
@@ -86,14 +97,17 @@ func login(c *gin.Context) {
 	err = q.QueryRow(username, sha).Scan(&u.id, &u.name, &u.passwd)
 
 	if err != nil {
-	match = false		
-	log.Println(err)
+		match = false
+		log.Println(err)
 	} 	
 	match = true
 	
 	defer db.Close()
 
 	if match {
+		session.Set("userid", u.id)
+		session.Set("history", "")
+		session.Save()
 		c.Redirect(http.StatusMovedPermanently, "/dir?path=/")
 	} else {
 		c.Redirect(http.StatusMovedPermanently, "/")
