@@ -16,10 +16,7 @@ import (
 
 func index(c *gin.Context) {
 	files, err := os.ReadDir(Conf.Dir)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
+	handleError(err, 1)
 
 	 fs := make([]FileInfo, len(files))	//change 100 to amount of files
 
@@ -81,10 +78,7 @@ func login(c *gin.Context) {
 	var match bool 
 	var u User
 
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
+	handleError(err, 1)
 
 	username := c.PostForm("uname")
 	password := c.PostForm("passwd")
@@ -93,9 +87,7 @@ func login(c *gin.Context) {
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 		
 	q, err := db.Prepare("SELECT * FROM Users WHERE name=? and password=?")
-	if err != nil {
-		log.Fatal(err)
-	}
+	handleError(err, 0)
 
 	err = q.QueryRow(username, sha).Scan(&u.id, &u.name, &u.passwd)
 
@@ -122,15 +114,7 @@ func createaccount(c *gin.Context) {
 	pass := c.PostForm("password")
 	
 	db, err := sql.Open("sqlite3", Conf.DB)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	
-	if err != nil {
-		log.Println(err)
-		os.Exit(1)
-	}
+	handleError(err, 1)
 
 	hasher := sha256.New()
 	hasher.Write([]byte(pass))
@@ -139,10 +123,7 @@ func createaccount(c *gin.Context) {
 	
 	_, err = db.Exec("insert into Users values (null, ?, ?);", name, sha)
 	
-	if err != nil {
-		log.Println(err)
-		os.Exit(1)
-	}
+	handleError(err, 1)
 
 	c.Redirect(http.StatusMovedPermanently, "/")
 }

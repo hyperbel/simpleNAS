@@ -23,7 +23,6 @@ func main() {
 
 	byte_value, _ := io.ReadAll(json_file)
 	json.Unmarshal(byte_value, &Conf)
-	fmt.Println(Conf.Dir, Conf.DB)
 
 	r := gin.Default()
 
@@ -42,30 +41,3 @@ func main() {
 	r.Run()
 }
 
-func handleArgs(args []string) string {
-	config_file_location := ""
-	home_dir, err := os.UserHomeDir()
-
-	if len(args) == 1 {
-		if err != nil {
-			fmt.Println("user doesn't have home dir...")
-			os.Exit(1)
-		}
-		config_file_location = fmt.Sprintf("%s/.config/simplenas/config.json", home_dir)
-		fmt.Println(config_file_location)
-		return config_file_location
-	}
-
-	if args[1] == "help" {
-		fmt.Println("You can provide a config file, by passing it as an Argument.")
-		fmt.Println("Usage: go run . <config>")
-		fmt.Println("the default config file is ~/.config/simplenas/config")
-		fmt.Println("If this config file is not there, you have to provide one")
-		os.Exit(0)
-	} else {
-		config_file_location = args[1]
-		fmt.Println(args[1])
-	}
-	
-	return config_file_location
-}
