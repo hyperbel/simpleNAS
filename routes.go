@@ -137,6 +137,6 @@ func back(c *gin.Context) {
 	fmt.Println(body)
 
 	c.JSON(http.StatusOK, gin.H{
-		"url": "http://localhost:8080/dir?path=/",
+		"url": body,
 	})
 }
