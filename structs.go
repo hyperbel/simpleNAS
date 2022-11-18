@@ -16,7 +16,3 @@ type User struct {
 	name string
 	passwd string
 }
-
-type BackInfo struct {
-	path string
-}

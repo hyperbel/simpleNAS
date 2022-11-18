@@ -132,15 +132,9 @@ func createaccount(c *gin.Context) {
 
 func back(c *gin.Context) {
 	fmt.Println("back called")
-	var backInfo BackInfo
-	body, _ := io.ReadAll(c.Request.Body)
-	fmt.Println(string(body))
-
-	if err := c.BindJSON(&backInfo); err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	fmt.Println(backInfo)
+	b_body, _ := io.ReadAll(c.Request.Body)
+	body := string(b_body)
+	fmt.Println(body)
 
 	c.JSON(http.StatusOK, gin.H{
 		"url": "http://localhost:8080/dir?path=/",
