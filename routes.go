@@ -1,31 +1,30 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"log"
-	"io"
-	"net/http"
 	"crypto/sha256"
-	"encoding/base64"
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
-	"github.com/gin-gonic/gin"
+	"encoding/base64"
+	"fmt"
 	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
+	_ "github.com/mattn/go-sqlite3"
+	"io"
+	"log"
+	"net/http"
+	"os"
 )
 
 func index(c *gin.Context) {
 	files, err := os.ReadDir(Conf.Dir)
 	handleError(err, 1)
 
-	 fs := make([]FileInfo, len(files))	//change 100 to amount of files
+	fs := make([]FileInfo, len(files)) //change 100 to amount of files
 
-	
 	for i, f := range files {
 		fs[i] = FileInfo{f.Name(), f.IsDir(), 0}
 	}
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"dir": Conf.Dir,
+		"dir":   Conf.Dir,
 		"files": fs,
 	})
 
@@ -41,16 +40,16 @@ func dir(c *gin.Context) {
 
 	dir := Conf.Dir + path
 	files, err := os.ReadDir(dir)
-	
+
 	if err != nil {
 		log.Fatal(err)
 		c.HTML(500, "error.html", gin.H{
 			"message": "an error occured, please check logs",
 		})
 	}
-	
+
 	fs := make([]FileInfo, len(files))
-	
+
 	for i, file := range files {
 		fs[i] = FileInfo{file.Name(), file.IsDir(), 0}
 	}
@@ -65,8 +64,8 @@ func dir(c *gin.Context) {
 	session.Save()
 
 	c.HTML(http.StatusOK, "dir.html", gin.H{
-		"dir": dir,
-		"files": fs,
+		"dir":    dir,
+		"files":  fs,
 		"userid": uid,
 	})
 }
@@ -75,7 +74,7 @@ func login(c *gin.Context) {
 	db, err := sql.Open("sqlite3", Conf.DB)
 	session := sessions.Default(c)
 	hasher := sha256.New()
-	var match bool 
+	var match bool
 	var u User
 
 	handleError(err, 1)
@@ -85,7 +84,7 @@ func login(c *gin.Context) {
 
 	hasher.Write([]byte(password))
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
-		
+
 	q, err := db.Prepare("SELECT * FROM Users WHERE name=? and password=?")
 	handleError(err, 0)
 
@@ -94,9 +93,9 @@ func login(c *gin.Context) {
 	if err != nil {
 		match = false
 		log.Println(err)
-	} 	
+	}
 	match = true
-	
+
 	defer db.Close()
 
 	if match {
@@ -112,7 +111,7 @@ func login(c *gin.Context) {
 func createaccount(c *gin.Context) {
 	name := c.PostForm("name")
 	pass := c.PostForm("password")
-	
+
 	db, err := sql.Open("sqlite3", Conf.DB)
 	handleError(err, 1)
 
@@ -120,9 +119,8 @@ func createaccount(c *gin.Context) {
 	hasher.Write([]byte(pass))
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 
-	
 	_, err = db.Exec("insert into Users values (null, ?, ?);", name, sha)
-	
+
 	handleError(err, 1)
 
 	c.Redirect(http.StatusMovedPermanently, "/")
@@ -135,4 +133,11 @@ func back(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"url": body,
 	})
+}
+
+func createdir(c *gin.Context) {
+	dir := c.Query("name")
+	err := os.Mkdir(fmt.Sprintf("%s/%s", Conf.Dir, dir), os.ModePerm)
+	handleError(err, 1)
+
 }

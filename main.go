@@ -1,13 +1,13 @@
 package main
 
 import (
-	"os"
-	"fmt"
 	"encoding/json"
-	"io"
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/gin"
+	"io"
+	"os"
 )
 
 var Conf Config
@@ -16,7 +16,7 @@ func main() {
 	file_path := handleArgs(os.Args)
 	json_file, err := os.Open(file_path)
 
-	if err !=nil {
+	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -28,7 +28,7 @@ func main() {
 
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("session", store))
-	
+
 	r.LoadHTMLGlob("sites/html/*.html")
 	r.Static("/assets", "./sites/assets")
 
@@ -37,7 +37,7 @@ func main() {
 	r.POST("/login", login)
 	r.POST("/createaccount", createaccount)
 	r.POST("/back", back)
+	r.POST("/createdir", createdir)
 
 	r.Run()
 }
-
