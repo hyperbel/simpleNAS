@@ -41,12 +41,7 @@ func dir(c *gin.Context) {
 	dir := Conf.Dir + path
 	files, err := os.ReadDir(dir)
 
-	if err != nil {
-		log.Fatal(err)
-		c.HTML(500, "error.html", gin.H{
-			"message": "an error occured, please check logs",
-		})
-	}
+	handleError(err, 1)
 
 	fs := make([]FileInfo, len(files))
 

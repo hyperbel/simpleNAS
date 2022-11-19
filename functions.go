@@ -1,12 +1,12 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
 func parseHistoryFromString(hist string) []string {
-	
+
 	return make([]string, 0)
 }
 
@@ -35,15 +35,15 @@ func handleArgs(args []string) string {
 		config_file_location = args[1]
 		fmt.Println(args[1])
 	}
-	
+
 	return config_file_location
 }
 
-func handleError(e error, sev int) {
+func handleError(e error, exit_code int) {
 	if e != nil {
 		fmt.Println(e)
-		if sev != 0 {
-			os.Exit(sev)	
+		if exit_code != 0 {
+			os.Exit(exit_code)
 		}
 	}
 }
