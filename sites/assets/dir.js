@@ -11,9 +11,14 @@ function back() {
 }
 
 function createdir() {
-  fetch("/createdir?name=", {
-    method: 'POST'
-  }).then((res) => res.json()).then((data) => {
-    console.log(res)
-  })
+  console.log("test")
+  let text;
+  let name = prompt("Directory name", "...")
+  if (name == null || name == "") {
+    fetch(`/createdir?name=${name}`, {
+      method: 'POST'
+    }).then((res) => res.json()).then((data) => {
+      console.log(res)
+    })
+  }
 }
