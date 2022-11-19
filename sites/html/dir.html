@@ -6,6 +6,7 @@
       <button onclick="back()">back</button>
       <h1>{{ .dir }}</h1>
       {{ range $file := .files }}
+          <input type="checkbox" id="{{ .Name }}_checkbox" name="{{ .Name }}_checkbox">
           {{ if .IsDir }}
             <button onclick="window.location = window.location + '/{{ .Name }}'">{{ .Name }}</button>
           {{ else }}

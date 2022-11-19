@@ -102,7 +102,7 @@ func login(c *gin.Context) {
 		session.Set("userid", u.id)
 		session.Set("history", "")
 		session.Save()
-		c.Redirect(http.StatusMovedPermanently, "/dir?path=/")
+		c.Redirect(http.StatusMovedPermanently, "/dir?path=")
 	} else {
 		c.Redirect(http.StatusMovedPermanently, "/")
 	}
