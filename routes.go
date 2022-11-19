@@ -139,5 +139,5 @@ func createdir(c *gin.Context) {
 	dir := c.Query("name")
 	err := os.Mkdir(fmt.Sprintf("%s/%s", Conf.Dir, dir), os.ModePerm)
 	handleError(err, 1)
-
+	c.JSON(http.StatusOK, gin.H{})
 }
