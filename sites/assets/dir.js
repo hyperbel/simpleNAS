@@ -9,3 +9,11 @@ function back() {
     window.location.href = data["url"]
   })
 }
+
+function createdir() {
+  fetch("/createdir?name=", {
+    method: 'POST'
+  }).then((res) => res.json()).then((data) => {
+    console.log(res)
+  })
+}
