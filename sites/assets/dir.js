@@ -21,3 +21,7 @@ function createdir() {
     })
   }
 }
+
+function removefiles() {
+  var checkBoxes = document.querySelectorAll('input[name=_checkboxes]:checked')
+}
