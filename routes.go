@@ -136,3 +136,7 @@ func createdir(c *gin.Context) {
 	handleError(err, 1)
 	c.JSON(http.StatusOK, gin.H{})
 }
+
+func removefiles(c *gin.Context) {
+
+}

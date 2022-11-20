@@ -38,6 +38,7 @@ func main() {
 	r.POST("/createaccount", createaccount)
 	r.POST("/back", back)
 	r.POST("/createdir", createdir)
+	r.POST("/removefiles", removefiles)
 
 	r.Run()
 }
