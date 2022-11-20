@@ -24,4 +24,6 @@ function createdir() {
 
 function removefiles() {
   var checkBoxes = document.querySelectorAll('input[name=_checkboxes]:checked')
+  for(var i = 0; i < checkBoxes.length-1; i++)
+    console.log(checkBoxes[i])
 }
