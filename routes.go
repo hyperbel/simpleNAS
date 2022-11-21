@@ -141,7 +141,7 @@ func removefiles(c *gin.Context) {
 	var removeBody RemoveFilesRequestBody
 	err := c.BindJSON(&removeBody)
 	handleError(err, 0)
-	for i, file := range removeBody.files {
+	for _, file := range removeBody.files {
 		fmt.Println(file)
 	}
 }
