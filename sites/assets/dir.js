@@ -17,7 +17,8 @@ function createdir() {
     fetch(`/createdir?name=${name}`, {
       method: 'POST'
     }).then((res) => res.json()).then((data) => {
-      console.log(res)
+      console.log(data)
+      location.reload()
     })
   }
 }
