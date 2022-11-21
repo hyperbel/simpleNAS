@@ -1,22 +1,23 @@
 package main
 
 type Config struct {
-	Dir	string	`json:"dir"`
-	DB string `json:"db"`
+	Dir string `json:"dir"`
+	DB  string `json:"db"`
 }
 
 type FileInfo struct {
-	Name string
+	Name  string
 	IsDir bool
-	Size int
+	Size  int
 }
 
 type User struct {
-	id int 
-	name string
+	id     int
+	name   string
 	passwd string
 }
 
 type RemoveFilesRequestBody struct {
-	files []string
+	text  string
+	files []interface{}
 }
