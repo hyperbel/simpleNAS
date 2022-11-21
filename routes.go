@@ -138,7 +138,10 @@ func createdir(c *gin.Context) {
 }
 
 func removefiles(c *gin.Context) {
-	json_data, err := io.ReadAll(c.Request.Body)
-	handleError(err,0)
-	fmt.Println(json_data)
+	var removeBody RemoveFilesRequestBody
+	err := c.BindJSON(&removeBody)
+	handleError(err, 0)
+	for i, file := range removeBody.files {
+		fmt.Println(file)
+	}
 }

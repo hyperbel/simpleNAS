@@ -16,3 +16,7 @@ type User struct {
 	name string
 	passwd string
 }
+
+type RemoveFilesRequestBody struct {
+	files []string
+}
