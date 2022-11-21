@@ -140,5 +140,5 @@ func createdir(c *gin.Context) {
 func removefiles(c *gin.Context) {
 	var remove_files_request_body RemoveFilesRequestBody
 	c.Bind(&remove_files_request_body)
-	fmt.Println("%+v", remove_files_request_body)
+	fmt.Printf("%+v\n", remove_files_request_body)
 }
