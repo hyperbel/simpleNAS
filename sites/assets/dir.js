@@ -33,7 +33,7 @@ function removefiles() {
     },
     body: JSON.stringify({
       'text': "huhu",
-      'files': checkBoxes
+      'files': Array.from(checkBoxes)
     })
   })
 }
