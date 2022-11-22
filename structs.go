@@ -19,5 +19,5 @@ type User struct {
 
 type RemoveFilesRequestBody struct {
 	text  string
-	files []interface{}
+	files []string
 }
