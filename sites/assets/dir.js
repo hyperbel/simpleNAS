@@ -24,16 +24,12 @@ function createdir() {
 }
 
 function removefiles() {
-  var checkBoxes = document.querySelectorAll('input[name=_checkbox]:checked')
+  var checkBoxes = []; 
+  document.querySelectorAll('input[name=_checkbox]:checked').forEach((el) => checkBoxes.push(el.id))
   fetch("/removefiles", {
     method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify({
-      'text': "huhu",
-      'files': Array.from(checkBoxes)
+      'files': checkBoxes
     })
   })
 }
