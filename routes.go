@@ -124,7 +124,7 @@ func createaccount(c *gin.Context) {
 func back(c *gin.Context) {
 	b_body, _ := io.ReadAll(c.Request.Body)
 	body := string(b_body)
-
+	fmt.Printf("%+v", b_body)
 	c.JSON(http.StatusOK, gin.H{
 		"url": body,
 	})
