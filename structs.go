@@ -18,6 +18,6 @@ type User struct {
 }
 
 type RemoveFilesRequestBody struct {
-	text  string
-	files []interface{}
+	Text  string   `json:"text"`
+	Files []string `json:"files"`
 }
