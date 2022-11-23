@@ -147,6 +147,7 @@ func removefiles(c *gin.Context) {
 				fmt.Printf("%v : %v : %v\n", i, string(file_name[i]), file_name[i])
 				file := file_name[:len(file_name)-(len(file_name)-i)]
 				fmt.Printf("%+v\n", file)
+
 			}
 		}
 	}

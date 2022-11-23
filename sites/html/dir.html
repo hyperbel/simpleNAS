@@ -10,7 +10,7 @@
       {{ range $file := .files }}
           <input type="checkbox" id="{{ .Name }}_checkbox" name="_checkbox">
           {{ if .IsDir }}
-            <button onclick="window.location = window.location + '/{{ .Name }}'">{{ .Name }}</button>
+            <button onclick="window.location = window.location + '{{ .Name }}/'">{{ .Name }}</button>
           {{ else }}
             <span>{{ .Name }}</span>
           {{end}}
