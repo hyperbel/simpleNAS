@@ -3,12 +3,13 @@ module hyperbel/simpleNAS
 go 1.19
 
 require (
+	github.com/gin-contrib/location v0.0.2
+	github.com/gin-contrib/sessions v0.0.4
 	github.com/gin-gonic/gin v1.8.1
-	github.com/mattn/go-sqlite3 v2.0.3+incompatible
+	github.com/mattn/go-sqlite3 v1.14.16
 )
 
 require (
-	github.com/gin-contrib/sessions v0.0.5 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect

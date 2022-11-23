@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/base64"
 	"fmt"
+	"github.com/gin-contrib/location"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
@@ -58,10 +59,15 @@ func dir(c *gin.Context) {
 	}
 	session.Save()
 
+	url := location.Get(c)
+	fmt.Printf("%+v", url.RawPath)
+	fmt.Println("test")
+
 	c.HTML(http.StatusOK, "dir.html", gin.H{
-		"dir":    dir,
-		"files":  fs,
-		"userid": uid,
+		"dir":      dir,
+		"files":    fs,
+		"userid":   uid,
+		"location": "not working",
 	})
 }
 

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gin-contrib/location"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,7 @@ func main() {
 
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("session", store))
+	r.Use(location.Default())
 
 	r.LoadHTMLGlob("sites/html/*.html")
 	r.Static("/assets", "./sites/assets")

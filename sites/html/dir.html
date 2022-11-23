@@ -12,11 +12,11 @@
           {{ if .IsDir }}
             <button onclick="window.location = window.location + '{{ .Name }}/'">{{ .Name }}</button>
           {{ else }}
-            <span>{{ .Name }}</span>
+            <a download>{{ .Name }}</a>
           {{end}}
         <br/>
       {{ end }}
-      <p>/dirtest endpoint</p>
+      <p>{{ .location }}</p>
     </div>
     <script src="/assets/dir.js"></script>
   </body>
