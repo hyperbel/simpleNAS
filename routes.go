@@ -147,6 +147,10 @@ func removefiles(c *gin.Context) {
 	var remove_files_request_body RemoveFilesRequestBody
 	err := c.BindJSON(&remove_files_request_body)
 	handleError(err, 0)
+
+	url := location.Get(c)
+	fmt.Printf("%v\n", url.String())
+
 	for _, file_name := range remove_files_request_body.Files {
 		for i := len(file_name) - 1; i > -1; i-- {
 			if file_name[i] == 95 {
