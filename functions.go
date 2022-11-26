@@ -51,5 +51,5 @@ func handleError(e error, exit_code int) {
 func pathFromQuery(query string) string {
 	path := query[6:]
 
-	return path
+	return Conf.Dir + path
 }
