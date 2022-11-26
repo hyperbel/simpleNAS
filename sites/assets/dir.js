@@ -29,7 +29,8 @@ function removefiles() {
   fetch("/removefiles", {
     method: 'POST',
     body: JSON.stringify({
-      'files': checkBoxes
+      'files': checkBoxes,
+      'search': window.location.search
     })
   })
 }
