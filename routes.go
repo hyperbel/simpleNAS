@@ -169,3 +169,7 @@ func removefiles(c *gin.Context) {
 		}
 	}
 }
+
+func uploadfiles(c *gin.Context) {
+
+}

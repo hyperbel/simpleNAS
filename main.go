@@ -41,6 +41,7 @@ func main() {
 	r.POST("/back", back)
 	r.POST("/createdir", createdir)
 	r.POST("/removefiles", removefiles)
+	r.POST("/uploadfiles", uploadfiles)
 
 	r.Run()
 }
