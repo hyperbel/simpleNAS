@@ -6,9 +6,8 @@
       <button onclick="back()">back</button>
       <button onclick="createdir()">Create Directory</button>
       <button onclick="removefiles()">Remove</button>
-      <form action="/uploadfile" method="post">
+      <form action="/uploadfile" method="post" id="file_form">
         <input type="file" id="file_upload" name="file_upload">
-        <input type="submit">
       </form>
       <h1>{{ .dir }}</h1>
       {{ range $file := .files }}
