@@ -38,7 +38,12 @@ function removefiles() {
   })
 }
 
-document.getElementById("file_upload").onchange = () => {
+
+document.getElementById("file_upload").addEventListener("onchange", () => {
+  console.log("file upload changed")
   document.getElementById("hidden_url").innerHTML = window.location.pathname + window.location.search;
+
   document.getElementById("file_form").submit();
-}
+  
+})
+
