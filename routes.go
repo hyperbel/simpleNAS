@@ -139,7 +139,14 @@ func back(c *gin.Context) {
 
 func createdir(c *gin.Context) {
 	dir := c.Query("name")
-	err := os.Mkdir(fmt.Sprintf("%s/%s", Conf.Dir, dir), os.ModePerm)
+	fmt.Println(dir)
+	var create_dir_request_body CreateDirRequestBody
+	err := c.BindJSON(&create_dir_request_body)
+	handleError(err, 0)
+	path := pathFromQuery(create_dir_request_body.Search)
+	fmt.Println(path)
+	full_path := fmt.Sprintf("%s/%s", path, dir)
+	err = os.Mkdir(full_path, os.ModePerm)
 	handleError(err, 1)
 	c.JSON(http.StatusOK, gin.H{})
 }

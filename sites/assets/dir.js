@@ -15,7 +15,10 @@ function createdir() {
   let name = prompt("Directory name", "...")
   if (name != null || name != "") {
     fetch(`/createdir?name=${name}`, {
-      method: 'POST'
+      method: 'POST',
+      body: JSON.stringify({
+        'search': window.location.search
+      })
     }).then((res) => res.json()).then((data) => {
       console.log(data)
       location.reload()

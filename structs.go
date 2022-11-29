@@ -21,3 +21,7 @@ type RemoveFilesRequestBody struct {
 	Files  []string `json:"files"`
 	Search string   `json:"search"`
 }
+
+type CreateDirRequestBody struct {
+	Search string `json:"search"`
+}
