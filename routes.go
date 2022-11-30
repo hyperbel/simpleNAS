@@ -179,5 +179,5 @@ func removefiles(c *gin.Context) {
 
 func uploadfile(c *gin.Context) {
 	fmt.Println(c.PostForm("hidden_url"))
-	c.Redirect(http.StatusPermanentRedirect, "/dir?path=")
+	c.Redirect(301, "/dir?path=/")
 }
