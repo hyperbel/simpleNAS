@@ -179,5 +179,8 @@ func removefiles(c *gin.Context) {
 
 func uploadfile(c *gin.Context) {
 	fmt.Println(c.PostForm("hidden_url"))
+	file, err := c.FormFile("file_upload")
+	handleError(err, 1)
+	fmt.Printf("%+v", file)
 	c.Redirect(301, "/dir?path=/") // 301 is required to redirect as GET instead of POST when using 308
 }
