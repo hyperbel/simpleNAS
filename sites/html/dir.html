@@ -6,10 +6,7 @@
       <button onclick="back()">back</button>
       <button onclick="createdir()">Create Directory</button>
       <button onclick="removefiles()">Remove</button>
-      <form action="/uploadfile" method="post" id="file_form">
-        <input type="file" id="file_upload" name="file_upload">
-        <input type="text" id="hidden_url" name="hidden_url" hidden>
-      </form>
+      <input type="file" id="file_upload" name="file_upload">
       <h1>{{ .dir }}</h1>
       {{ range $file := .files }}
           <input type="checkbox" id="{{ .Name }}_checkbox" name="_checkbox">

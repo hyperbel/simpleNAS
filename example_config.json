@@ -1,4 +1,4 @@
 {
-  "dir": "./testdir/",
+  "dir": "testdir/",
   "db": "./database.db"
 }

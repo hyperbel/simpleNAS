@@ -39,9 +39,18 @@ function removefiles() {
 }
 
 
-document.getElementById("file_upload").onchange = function () {
-  console.log("file upload changed")
-  document.getElementById("hidden_url").innerHTML = window.location.pathname + window.location.search;
-
-  document.getElementById("file_form").submit();
+document.getElementById("file_upload").onchange = function (ev) {
+  let files = ev.target.files;
+  Array.from(files).forEach((file) => {
+    fetch('/uploadfile', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'file_upload': file,
+        'url': window.location.pathname + window.location.search    
+      })
+    })
+  })
 }
