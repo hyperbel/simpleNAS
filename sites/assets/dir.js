@@ -38,9 +38,6 @@ function removefiles() {
   })
 }
 
-
-document.getElementById("file_upload").onchange = function () {
-  alert("form submitted")
+function file_upload_form_on_submit() {
   document.getElementById("hidden_url").innerText = window.location.pathname + window.location.search
-  document.forms["file_upload_form"].submit();
 }

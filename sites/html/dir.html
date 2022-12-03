@@ -5,14 +5,16 @@
 </head>
 
 <body>
+  <iframe name="postFrameHidden" hidden></iframe>
   <div id="content">
     <button onclick="back()">back</button>
     <button onclick="createdir()">Create Directory</button>
     <button onclick="removefiles()">Remove</button>
-    <form name="file_upload_form" id="file_upload_form" action="/uploadfile" method="POST">
+    <form name="file_upload_form" id="file_upload_form" action="/uploadfile" method="POST"
+      onsubmit="file_upload_form_on_submit()" target="postFrameHidden" enctype="multipart/form-data">
       <input type="file" id="file_upload" name="file_upload">
       <input type="text" id="hidden_url" name="hidden_url" hidden>
-      <input type="submit" text="Upload File/s">
+      <input type="submit" value="Upload File/s">
     </form>
     <h1>{{ .dir }}</h1>
     {{ range $file := .files }}
