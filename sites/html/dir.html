@@ -1,24 +1,31 @@
 <html>
-  <head>
-  </head>
-  <body>
-    <div id="content">
-      <button onclick="back()">back</button>
-      <button onclick="createdir()">Create Directory</button>
-      <button onclick="removefiles()">Remove</button>
+
+<head>
+  <link rel="stylesheet" href="/assets/dir.css" </head>
+
+<body>
+  <div id="content">
+    <button onclick="back()">back</button>
+    <button onclick="createdir()">Create Directory</button>
+    <button onclick="removefiles()">Remove</button>
+    <form name="file_upload_form" id="file_upload_form" action="/uploadfile" method="POST">
       <input type="file" id="file_upload" name="file_upload">
-      <h1>{{ .dir }}</h1>
-      {{ range $file := .files }}
-          <input type="checkbox" id="{{ .Name }}_checkbox" name="_checkbox">
-          {{ if .IsDir }}
-            <button onclick="window.location = window.location + '{{ .Name }}/'">{{ .Name }}</button>
-          {{ else }}
-            <a download>{{ .Name }}</a>
-          {{ end }}
-        <br/>
-      {{ end }}
-      <p>{{ .location }}</p>
-    </div>
-    <script src="/assets/dir.js"></script>
-  </body>
+      <input type="text" id="hidden_url" name="hidden_url" hidden>
+      <input type="submit" text="Upload File/s">
+    </form>
+    <h1>{{ .dir }}</h1>
+    {{ range $file := .files }}
+    <input type="checkbox" id="{{ .Name }}_checkbox" name="_checkbox">
+    {{ if .IsDir }}
+    <button onclick="window.location = window.location + '{{ .Name }}/'">{{ .Name }}</button>
+    {{ else }}
+    <a download>{{ .Name }}</a>
+    {{ end }}
+    <br />
+    {{ end }}
+    <p>{{ .location }}</p>
+  </div>
+  <script src="/assets/dir.js"></script>
+</body>
+
 </html>
