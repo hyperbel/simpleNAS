@@ -14,6 +14,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 func index(c *gin.Context) {
@@ -178,9 +179,25 @@ func removefiles(c *gin.Context) {
 }
 
 func uploadfile(c *gin.Context) {
+	fmt.Println("getting from submitted stuff")
 	fmt.Println(c.PostForm("hidden_url"))
+	path := pathFromQuery(c.PostForm("hidden_url"))
 	file, err := c.FormFile("file_upload")
 	handleError(err, 1)
-	fmt.Printf("%+v", file)
+
+	fmt.Println("settings vars")
+	ext := filepath.Ext(file.Filename)
+	fullFileName := path + file.Filename + ext
+	fmt.Println(fullFileName)
+
+	fmt.Println("creating file")
+	os_file, err := os.Create(fullFileName)
+	handleError(err, 1)
+	fmt.Println("os file created successfully")
+	os_file.Close()
+
+	err = c.SaveUploadedFile(file, fullFileName)
+	handleError(err, 1)
+
 	c.Redirect(301, "/dir?path=/") // 301 is required to redirect as GET instead of POST when using 308
 }

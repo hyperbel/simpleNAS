@@ -11,7 +11,6 @@ function back() {
 }
 
 function createdir() {
-  let text;
   let name = prompt("Directory name", "...")
   if (name != null || name != "") {
     fetch(`/createdir?name=${name}`, {
@@ -39,5 +38,6 @@ function removefiles() {
 }
 
 function file_upload_form_on_submit() {
-  document.getElementById("hidden_url").innerText = window.location.pathname + window.location.search
+  alert("submitting")
+  document.getElementById("hidden_url").value = window.location.search
 }
