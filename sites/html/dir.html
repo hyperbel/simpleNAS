@@ -23,7 +23,7 @@
     {{ if .IsDir }}
     <button onclick="window.location = window.location + '{{ .Name }}/'">{{ .Name }}</button>
     {{ else }}
-    <a href="/download/{{ .Name }}" download>{{ .Name }}</a>
+    <a href="/download/{{ $test }}{{ .Name }}" download>{{ .Name }}</a>
     {{ end }}
     <br />
     {{ end }}

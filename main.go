@@ -33,7 +33,7 @@ func main() {
 
 	r.LoadHTMLGlob("sites/html/*.html")
 	r.Static("/assets", "./sites/assets")
-	r.Static("/download", Conf.Dir)
+	r.Static(fmt.Sprintf("/download/%s", Conf.Dir), Conf.Dir)
 
 	r.GET("/", index)
 	r.GET("/dir", dir)
