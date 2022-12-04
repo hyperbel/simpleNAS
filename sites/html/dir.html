@@ -17,12 +17,13 @@
       <input type="submit" value="Upload File/s">
     </form>
     <h1>{{ .dir }}</h1>
+    {{ $test := .dir }}
     {{ range $file := .files }}
     <input type="checkbox" id="{{ .Name }}_checkbox" name="_checkbox">
     {{ if .IsDir }}
     <button onclick="window.location = window.location + '{{ .Name }}/'">{{ .Name }}</button>
     {{ else }}
-    <a download>{{ .Name }}</a>
+    <a href="/download/{{ .Name }}" download>{{ .Name }}</a>
     {{ end }}
     <br />
     {{ end }}

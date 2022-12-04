@@ -33,6 +33,7 @@ func main() {
 
 	r.LoadHTMLGlob("sites/html/*.html")
 	r.Static("/assets", "./sites/assets")
+	r.Static("/download", Conf.Dir)
 
 	r.GET("/", index)
 	r.GET("/dir", dir)
