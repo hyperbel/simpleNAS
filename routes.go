@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 )
 
+// login / signup page
 func index(c *gin.Context) {
 	files, err := os.ReadDir(Conf.Dir)
 	handleError(err, 1)
@@ -33,6 +34,7 @@ func index(c *gin.Context) {
 
 }
 
+// get current directory
 func dir(c *gin.Context) {
 	path := c.Query("path")
 	//db, err := sql.Open("sqlite3", Conf.DB)
@@ -73,6 +75,7 @@ func dir(c *gin.Context) {
 	})
 }
 
+// logs the user in, if passwd and username are correct
 func login(c *gin.Context) {
 	db, err := sql.Open("sqlite3", Conf.DB)
 	session := sessions.Default(c)
@@ -111,6 +114,7 @@ func login(c *gin.Context) {
 	}
 }
 
+// allows the user to create an account
 func createaccount(c *gin.Context) {
 	name := c.PostForm("name")
 	pass := c.PostForm("password")
@@ -129,6 +133,7 @@ func createaccount(c *gin.Context) {
 	c.Redirect(http.StatusMovedPermanently, "/")
 }
 
+// not fully implemented "back" function for going up in dir structure
 func back(c *gin.Context) {
 	b_body, _ := io.ReadAll(c.Request.Body)
 	body := string(b_body)
@@ -138,6 +143,7 @@ func back(c *gin.Context) {
 	})
 }
 
+// creates directory on users command
 func createdir(c *gin.Context) {
 	dir := c.Query("name")
 	fmt.Println(dir)
@@ -152,6 +158,7 @@ func createdir(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
+// executes, when the user tries to remove a file
 func removefiles(c *gin.Context) {
 	var remove_files_request_body RemoveFilesRequestBody
 	err := c.BindJSON(&remove_files_request_body)
@@ -178,6 +185,7 @@ func removefiles(c *gin.Context) {
 	}
 }
 
+// gets executed when user attempts to upload a file
 func uploadfile(c *gin.Context) {
 	fmt.Println("getting from submitted stuff")
 	fmt.Println(c.PostForm("hidden_url"))
